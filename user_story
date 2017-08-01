@@ -1,0 +1,39 @@
+USER STORY
+
+1. I can see the tasks, in the order of priority*
+    1) all tasks (with separate section view)
+    2) today
+    3) this week
+    4) long term
+2. I can add and edit tasks with following properties
+    1) title
+    3) Due date (optional)
+    4) how long does it take (optional)
+    5) whether to show on the top from now on (top priority) - y/n
+    6) if the task reoccurs
+        a) set automatic interval (optional)
+3. I can mark a task done
+    1) I am asked if this task will reappear
+    2) I can delete when I mark it done
+4. I can find deleted tasks in a trash can and revive it
+    1) or delete forever
+
+
+*priority will have these conditions
+>> when (Due date - time) decreases, priority increases
+>> when (Due date - how long == 0, it starts to show up on 'today')
+
+example today's view)
+Today's tasks:
+1 - Top! call hairdresser at 11am               --> set manually as top priority
+2 - Top! set up meeting with Maria              --> due today
+3 - German homework (due in 1 days)             --> calculated then shows up
+4 - update some technical stuff (due in 3 days) --> later due date, shows up after previous one
+5 - feed pixel                                  --> reoccurring daily/weekly/etc task
+
+example weekly view)
+==today's task like above example==
+6 - something (due in 2 days, takes less than a day)
+7 - something else (due in 4 days, takes 1 day)
+8 - more stuff (due in 6 days, takes 3 days)
+...

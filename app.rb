@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 require 'optparse'
+require_relative 'controller'
 
 options = {}
+con = Controller.new
 
 main_opt_parser = OptionParser.new do |opt|
   opt.banner = "Usage: taskki COMMAND [OPTIONS]"
@@ -27,6 +29,11 @@ view_opt_parser = OptionParser.new do |opt|
   opt.separator  "Options"
 
   opt.on("-t", "--today", "View today's task")
+  opt.on("-w", "--week", "View next 7 day's task")
+  opt.on("-l", "--long", "--longterm", "View long term tasks")
+  opt.on("-h","--help","help") do
+    puts view_opt_parser
+  end
 end
 
 # add_opt_parser = OptionParser.new do |opt|
@@ -42,12 +49,18 @@ end
 
 case ARGV[0]
 when "view"
+  # VIEW OPTIONS
   case ARGV[1]
-  when "-t" || "--today"
-    puts "today view"
+  when "-t", "--today"
+    con.today
+  when "-w", "--week"
+    con.week
+  when "-l", "--long", "--longterm"
+    con.longterm
   else
-    puts view_opt_parser 
+    con.all
   end
+
 when "add"
   puts "add!!"
 else
