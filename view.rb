@@ -1,3 +1,5 @@
+require 'date'
+
 class View
   def view_today(tasks)
     puts ""

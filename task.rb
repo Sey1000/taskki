@@ -3,8 +3,8 @@ require 'faker'
 require_relative 'priority_algorithm'
 
 class Task
-  attr_reader :title, :due, :takes, :top_priority, :reoccur, :interval, :done
-  attr_accessor :id
+  attr_reader :title, :takes, :top_priority, :reoccur, :interval, :done
+  attr_accessor :id, :due, :score
   DB = SQLite3::Database.new('db/tasks.db')
   def initialize(infos = {})
     @id = infos['id']
