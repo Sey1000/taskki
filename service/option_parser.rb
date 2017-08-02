@@ -21,7 +21,7 @@ def parse_add_options(string)
   when 't', '-takes'
     return ['takes', splitted[1].to_i]
   when 'p', '-priority'
-    return ['top_priority', true]
+    return ['top_priority', 1]
   else
     return
   end

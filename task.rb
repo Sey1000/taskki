@@ -60,6 +60,19 @@ class Task
     puts "herro"
   end
 
+  def self.find_by_numbering(numbering)
+    algo = Task.all
+    all_task = algo.today + algo.week + algo.longterm
+    task_to_delete = all_task.find {|task| task.numbering = numbering}
+    return task_to_delete.id
+  end
+
+  def self.find(id)
+    s_hash = true
+    result = DB.execute("SELECT * from tasks WHERE id = ?", id).first
+    return Task.new(result)
+  end
+
   private
 
   def insert
@@ -76,14 +89,6 @@ class Task
 
   def update
     puts "gonna update"
-  end
-
-  def self.id_from_numbering(numbering)
-
-  end
-
-  def self.find(id)
-
   end
 
   def self.create_db

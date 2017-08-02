@@ -4,6 +4,7 @@ def main_help
 COMMAND
       view                  view all tasks
       add                   add new task
+      del, delete           delete a task
 
 OPTIONS
       -h, --help            help"
@@ -38,4 +39,13 @@ end
 
 def add_error
 "ERROR: 'add' only takes TITLE, --due DATE, --takes N, and --priority"
+end
+
+def delete_help
+"Usage:             taskki delete NUMBER
+LIST ALL TASKS:    taskki delete"
+end
+
+def delete_example
+"HOW TO DELETE: taskki delete NUMBER"
 end

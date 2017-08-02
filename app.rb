@@ -4,7 +4,6 @@ require 'date'
 require_relative 'controller'
 require_relative 'task'
 require_relative 'service/messages'
-require_relative 'service/option_parser'
 
 CON = Controller.new
 
@@ -23,13 +22,20 @@ def add
   case ARGV[1]
   when "-h", "--help", "help", nil then puts add_help
   else
-    infos = parse_add
-    if infos.nil?
-      puts add_error
-      return
-    else
-      Task.new(infos).add
-    end
+    CON.add
+  end
+end
+
+def delete
+  case ARGV[1]
+  when nil
+    puts delete_example
+    CON.all
+    puts ""
+    puts delete_example
+  when "-h", "--help", "help" then puts delete_help
+  else
+    CON.delete    
   end
 end
 
@@ -38,6 +44,8 @@ when "view"
   view    
 when "add"
   add
+when "del", "delete"
+  delete
 else
   puts main_help
 end
