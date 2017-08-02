@@ -6,7 +6,7 @@ class View
     puts "== TODAY =="
     tasks.each do |task|
       top = task.top_priority ? " [!]" : ""
-      puts "#{task.id} - #{task.title[0..8]} (#{task.due})#{top}"
+      puts "#{task.numbering} - #{task.title[0..8]} (#{task.due})#{top}"
     end
   end
 
@@ -15,7 +15,7 @@ class View
     puts "== THIS WEEK =="
     tasks.each do |task|
       top = task.top_priority ? " [!]" : ""
-      puts "#{task.id} - #{task.title[0..8]} (#{task.due})#{top}"
+      puts "#{task.numbering} - #{task.title[0..8]} (#{task.due})#{top}"
     end
   end
 
@@ -24,7 +24,7 @@ class View
     puts "== LONG TERM =="
     tasks.each do |task|
       top = task.top_priority ? " [!]" : ""
-      puts "#{task.id} - #{task.title[0..8]} (#{task.due})#{top}"
+      puts "#{task.numbering} - #{task.title[0..8]} (#{task.due})#{top}"
     end
   end
 end

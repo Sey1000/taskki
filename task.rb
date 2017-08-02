@@ -1,11 +1,11 @@
 require 'sqlite3'
 require 'faker'
-require_relative 'priority_algorithm'
+require_relative 'service/priority_algorithm'
 
 class Task
   attr_reader :title, :takes, :top_priority, :reoccur, :interval, :done
-  attr_accessor :id, :due, :score
-  DB = SQLite3::Database.new('db/tasks.db')
+  attr_accessor :id, :due, :score, :numbering
+  DB = SQLite3::Database.new('/Users/sey/Desktop/Work/Github_Projects/task_manager/db/tasks.db')
   def initialize(infos = {})
     @id = infos['id']
     @title = infos['title']
@@ -14,8 +14,8 @@ class Task
     @takes = infos['takes'] || 0
     # if no due, but only takes, due will be set automatically (today + takes)
     @top_priority = (infos['top_priority'] == 1 ? true : false) || false
-    @reoccur = (infos['reoccur'] == 1 ? true : false) || false
-    @interval = infos['interval']
+    @reoccur = (infos['reoccur'] || 7
+    # @interval = infos['interval']
     @done = (infos['done'] == 1 ? true : false) || false
   end
 

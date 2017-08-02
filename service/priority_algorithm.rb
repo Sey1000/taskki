@@ -10,11 +10,24 @@ class PriorityAlgorithm
     @longterm = []
     load_tasks
     order_today
-    # prettify should always be at the end
+    # numbering and prettify should always be at the end
+    numbering
     prettify_due
   end
 
   private
+
+  def numbering
+    @today.each_with_index do |task, ind|
+      task.numbering = ind + 1
+    end
+    @week.each_with_index do |task, ind|
+      task.numbering = ind + 1 + @today.length
+    end
+    @longterm.each_with_index do |task, ind|
+      task.numbering = ind + 1 + @today.length + @week.length
+    end
+  end
 
   def prettify_due
     @today.each do |task|
