@@ -56,6 +56,12 @@ class Task
     @id ? update : insert
   end
 
+  def delete
+    puts "herro"
+  end
+
+  private
+
   def insert
     pr = @top_priority ? 1 : 0
     ro = @reoccur ? 1 : 0
@@ -72,7 +78,13 @@ class Task
     puts "gonna update"
   end
 
-  private
+  def self.id_from_numbering(numbering)
+
+  end
+
+  def self.find(id)
+
+  end
 
   def self.create_db
     st = "
