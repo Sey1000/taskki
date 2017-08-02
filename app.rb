@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 
-require_relative 'controller'
 require 'date'
+require_relative 'controller'
+require_relative 'task'
 require_relative 'service/messages'
 require_relative 'service/option_parser'
 
@@ -25,9 +26,9 @@ def add
     infos = parse_add
     if infos.nil?
       puts add_error
-      returns
+      return
     else
-      puts "do something with this info"
+      Task.new(infos).add
     end
   end
 end

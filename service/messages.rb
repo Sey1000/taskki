@@ -26,18 +26,16 @@ def add_help
 
 OPTIONS
       -d, --due DATE        Set due date to new task
-      -t, --takes N         Add how many [N] days this task takes
-      -r, --reoccur N       Turn on repeat for every [N] days
-      -p, --priority        Make task top priority
+      -t, --takes N         Set how many [N] days this task takes
+      -p, --priority        Make new task top priority
 
       -h, --help, help      Show all add options
 
 Default behaviors
       if 'due' is not added, task is due Today
-      if 'takes' is set, but no 'due' is set, due is automatically Today + takes
-      if 'reoccur' is on without N, N is set to 7"
+      if 'takes' is set, but no 'due' is set, due is automatically Today + takes"
 end
 
 def add_error
-"ERROR: ADD only takes title, --due, --takes, --reoccur, and --top"
+"ERROR: 'add' only takes TITLE, --due DATE, --takes N, and --priority"
 end

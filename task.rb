@@ -1,5 +1,6 @@
 require 'sqlite3'
 require 'faker'
+require 'date'
 require_relative 'service/priority_algorithm'
 
 class Task
@@ -14,8 +15,8 @@ class Task
     @takes = infos['takes'] || 0
     # if no due, but only takes, due will be set automatically (today + takes)
     @top_priority = (infos['top_priority'] == 1 ? true : false) || false
-    @reoccur = (infos['reoccur'] || 7
-    # @interval = infos['interval']
+    @reoccur = (infos['reoccur'] == 1 ? true : false) || false
+    @interval = infos['interval']
     @done = (infos['done'] == 1 ? true : false) || false
   end
 
@@ -43,7 +44,12 @@ class Task
   end
 
   def add
-
+    if @due
+      @due = Date.parse(@due).to_s
+    else
+      @due = Date.today.to_s
+    end
+    save
   end
 
   def save
