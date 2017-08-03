@@ -45,16 +45,6 @@ def add
   end
 end
 
-def delete
-  case ARGV[1]
-  when "-h", "--help", "help" then puts delete_help
-  else
-    CON.all
-    puts ""
-    CON.delete    
-  end
-end
-
 def edit
   case ARGV[1]
   when "-h", "--help", "help" then puts edit_help
@@ -66,6 +56,16 @@ end
 
 def done
   CON.done(ARGV[1])
+end
+
+def delete
+  case ARGV[1]
+  when "-h", "--help", "help" then puts delete_help
+  else
+    CON.all
+    puts ""
+    CON.delete    
+  end
 end
 
 case ARGV[0]

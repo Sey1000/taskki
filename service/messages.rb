@@ -45,7 +45,7 @@ Default behaviors
 end
 
 def add_error
-"ERROR: 'add' only takes TITLE, --due DATE, --takes N, and --priority"
+"ERROR: 'add' first takes TITLE, then these options only"
 end
 
 def edit_help

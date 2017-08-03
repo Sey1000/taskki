@@ -61,26 +61,11 @@ class Task
     end
     save
   end
-  
-  def self.revive(id)
-    task = Task.find(id)
-    task.done = false
-    task.save
-  end
 
-  def self.done(task)
-    if task.reoccur
-      task.due = (Date.today + task.interval).to_s
-      puts "Reoccurring task: every #{task.interval} days, NEW due: #{task.due}"
-      if task.top_priority
-        puts "keep top_priority? [y/n]"
-        task.top_priority = STDIN.gets.chomp == 'y'
-      end
-    else
-      task.done = true
-      task.top_priority = false
-    end
-    task.save
+  def self.find(id)
+    DB.results_as_hash = true
+    result = DB.execute("SELECT * from tasks WHERE id = ?", id).first
+    return Task.new(result)
   end
 
   def edit_info(info, value)
@@ -99,6 +84,27 @@ class Task
     save
   end
 
+  def self.done(task)
+    if task.reoccur
+      task.due = (Date.today + task.interval).to_s
+      puts "Reoccurring task: every #{task.interval} days, NEW due: #{task.due}"
+      if task.top_priority
+        puts "keep top_priority? [y/n]"
+        task.top_priority = STDIN.gets.chomp == 'y'
+      end
+    else
+      task.done = true
+      task.top_priority = false
+    end
+    task.save
+  end
+  
+  def self.revive(id)
+    task = Task.find(id)
+    task.done = false
+    task.save
+  end
+
   def save
     @id ? update : insert
   end
@@ -107,10 +113,19 @@ class Task
     DB.execute("DELETE FROM tasks WHERE id = #{@id}")
   end
 
-  def self.find(id)
-    DB.results_as_hash = true
-    result = DB.execute("SELECT * from tasks WHERE id = ?", id).first
-    return Task.new(result)
+  def self.create_db
+    st = "
+    CREATE TABLE IF NOT EXISTS`tasks` (
+      `id`  INTEGER PRIMARY KEY AUTOINCREMENT,
+      `title` TEXT,
+      `due` TEXT,
+      `takes`  INTEGER,
+      `top_priority` BOOLEAN,
+      `reoccur` BOOLEAN,
+      `interval` INTEGER,
+      `done` BOOLEAN
+    );"
+    DB.execute(st)
   end
 
   private
@@ -139,34 +154,19 @@ class Task
     "
     DB.execute(st, self.title, self.due, self.takes, pr, ro, self.interval, dn)
   end
-
-  def self.create_db
-    st = "
-    CREATE TABLE IF NOT EXISTS`tasks` (
-      `id`  INTEGER PRIMARY KEY AUTOINCREMENT,
-      `title` TEXT,
-      `due` TEXT,
-      `takes`  INTEGER,
-      `top_priority` BOOLEAN,
-      `reoccur` BOOLEAN,
-      `interval` INTEGER,
-      `done` BOOLEAN
-    );"
-    DB.execute(st)
-  end
-
-  def self.seed
-    puts 'Creating 30 fake tasks...'
-    30.times do
-      task = Task.new(
-      title: Faker::Lorem.sentence,
-      due: Faker::Date.forward(100).to_s,
-      takes: (0..5).to_a.sample,
-      top_priority: [true, false].sample,
-      reoccur: [true, false].sample
-      )
-      task.save
-    end
-    puts 'Finished!'
-  end
+  
+  # def self.seed
+  #   puts 'Creating 30 fake tasks...'
+  #   30.times do
+  #     task = Task.new(
+  #     title: Faker::Lorem.sentence,
+  #     due: Faker::Date.forward(100).to_s,
+  #     takes: (0..5).to_a.sample,
+  #     top_priority: [true, false].sample,
+  #     reoccur: [true, false].sample
+  #     )
+  #     task.save
+  #   end
+  #   puts 'Finished!'
+  # end
 end

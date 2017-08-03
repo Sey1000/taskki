@@ -9,9 +9,6 @@ class Controller
     @view = View.new
   end
 
-  def call_me
-  end
-
   def today
     @view.view_today(Task.today)
   end
@@ -21,12 +18,6 @@ class Controller
   end
 
   def longterm
-    @view.view_longterm(Task.longterm)
-  end
-
-  def all
-    @view.view_today(Task.today)
-    @view.view_week(Task.week)
     @view.view_longterm(Task.longterm)
   end
 
@@ -42,27 +33,17 @@ class Controller
     end
   end
 
-  def done(id)
-    case id
-    when nil
-      all
-      @view.get_done_id
-    else
-      task = Task.find(id.to_i)
-      @view.marking(task)
-      Task.done(task)
-    end
-  end
-
-  def revive
-    id = @view.revive_selection
-    Task.revive(id)
+  def all
+    @view.view_today(Task.today)
+    @view.view_week(Task.week)
+    @view.view_longterm(Task.longterm)
   end
 
   def add
     infos = parse_add
     if infos.nil?
       puts add_error
+      puts add_help
       return
     else
       Task.new(infos).add
@@ -87,6 +68,18 @@ class Controller
     end
   end
 
+  def done(id)
+    case id
+    when nil
+      all
+      @view.get_done_id
+    else
+      task = Task.find(id.to_i)
+      @view.marking(task)
+      Task.done(task)
+    end
+  end
+
   def delete
     id = ARGV[1]
     task = Task.find(id)
@@ -98,6 +91,12 @@ class Controller
     else
       puts delete_cancle
     end
+  end
 
+  private
+
+  def revive
+    id = @view.revive_selection
+    Task.revive(id)
   end
 end

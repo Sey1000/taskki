@@ -1,5 +1,6 @@
 def parse_add
   infos = {}
+  return if ARGV[1][0] == '-'
   all_input = ARGV[1..-1].join(" ").split(" -")
   return if all_input.length > 4
   infos['title'] = all_input[0]
