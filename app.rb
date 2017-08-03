@@ -18,6 +18,10 @@ def view
   end
 end
 
+def today
+  CON.today
+end
+
 def add
   case ARGV[1]
   when "-h", "--help", "help", nil then puts add_help
@@ -28,22 +32,28 @@ end
 
 def delete
   case ARGV[1]
-  when nil
-    puts delete_example
-    CON.all
-    puts ""
-    puts delete_example
   when "-h", "--help", "help" then puts delete_help
   else
+    CON.all
+    puts ""
     CON.delete    
   end
 end
 
+def edit
+  CON.all
+  CON.edit
+end
+
 case ARGV[0]
 when "view"
-  view    
+  view
+when "today", "t"
+  today
 when "add"
   add
+when "edit"
+  edit
 when "del", "delete"
   delete
 else

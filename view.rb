@@ -6,7 +6,7 @@ class View
     puts "== TODAY =="
     tasks.each do |task|
       top = task.top_priority ? "[!] " : ""
-      puts "#{task.numbering} - #{top}#{task.title} (#{task.due})"
+      puts "#{task.id} - #{top}#{task.title} (#{task.due})"
     end
   end
 
@@ -14,7 +14,7 @@ class View
     puts ""
     puts "== THIS WEEK =="
     tasks.each do |task|
-      puts "#{task.numbering} - #{task.title} (#{task.due})"
+      puts "#{task.id} - #{task.title} (#{task.due})"
     end
   end
 
@@ -22,7 +22,45 @@ class View
     puts ""
     puts "== LONG TERM =="
     tasks.each do |task|
-      puts "#{task.numbering} - #{task.title} (#{task.due})"
+      puts "#{task.id} - #{task.title} (#{task.due})"
     end
+  end
+
+  def edit_selection
+    puts ""
+    puts "Edit which task?"
+    id = STDIN.gets.chomp
+    return id.to_i
+  end
+
+  def edit_option(task)
+    puts ""
+    puts "1 - title: #{task.title}"
+    puts "2 - due: #{task.due}"
+    puts task.takes == 0 ? "3 - takes: not specified" : "3 - takes: #{task.takes} days"
+    puts "4 - top priority: #{task.top_priority}"
+    puts task.interval == 0 ? "5 - repeat: not specified" : "5 - repeat: every #{task.interval} days"
+    puts "6 - CANCEL EDIT"
+    puts ""
+    puts "Edit which information?"
+    return STDIN.gets.chomp.to_i
+  end
+
+  def new_info(info)
+    case info
+    when 'title', 'due' then puts "New #{info}?"
+    when 'takes' then puts "How many days does it take?"
+    when 'reoccur' then puts "[t] for toggle, [#] of days for update"
+    when 'repeat' then puts "How often to repeat? ([#] of days)"
+    end
+    return STDIN.gets.chomp
+  end
+
+  def show_this_task(task)
+    puts "Delete task: #{task.id} - #{task.title}? [y/n]"
+  end
+
+  def deleted(task)
+    puts "#{task.id} - #{task.title} deleted"
   end
 end

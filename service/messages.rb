@@ -3,7 +3,9 @@ def main_help
 
 COMMAND
       view                  view all tasks
+      t, today              view today's tasks
       add                   add new task
+      edit                  edit a task
       del, delete           delete a task
 
 OPTIONS
@@ -42,10 +44,10 @@ def add_error
 end
 
 def delete_help
-"Usage:             taskki delete NUMBER
-LIST ALL TASKS:    taskki delete"
+"Usage:             taskki delete
+                   (Shows all tasks)"
 end
 
-def delete_example
-"HOW TO DELETE: taskki delete NUMBER"
+def delete_cancle
+"Delete cancelled"
 end

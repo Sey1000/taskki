@@ -16,7 +16,7 @@ class Task
     # if no due, but only takes, due will be set automatically (today + takes)
     @top_priority = (infos['top_priority'] == 1 ? true : false) || false
     @reoccur = (infos['reoccur'] == 1 ? true : false) || false
-    @interval = infos['interval']
+    @interval = infos['interval'] || 0
     @done = (infos['done'] == 1 ? true : false) || false
   end
 
@@ -52,23 +52,32 @@ class Task
     save
   end
 
+  def edit_info(info, value)
+    case info
+    when 'title' then @title = value
+    when 'due' then @due = Date.parse(value).to_s
+    when 'takes' then @takes = value
+    when 'top priority'
+      @top_priority = !@top_priority
+      puts "Top priority toggled"
+      puts ""
+    when 'repeat'
+      @reoccur = true
+      @interval = value
+    end
+    save
+  end
+
   def save
     @id ? update : insert
   end
 
-  def delete
-    puts "herro"
-  end
-
-  def self.find_by_numbering(numbering)
-    algo = Task.all
-    all_task = algo.today + algo.week + algo.longterm
-    task_to_delete = all_task.find {|task| task.numbering = numbering}
-    return task_to_delete.id
+  def destroy
+    DB.execute("DELETE FROM tasks WHERE id = #{@id}")
   end
 
   def self.find(id)
-    s_hash = true
+    DB.results_as_hash = true
     result = DB.execute("SELECT * from tasks WHERE id = ?", id).first
     return Task.new(result)
   end
@@ -88,7 +97,16 @@ class Task
   end
 
   def update
-    puts "gonna update"
+    pr = @top_priority ? 1 : 0
+    ro = @reoccur ? 1 : 0
+    dn = @done ? 1 : 0
+    st = "
+    UPDATE tasks
+    SET title = ?, due = ?, takes = ?, top_priority = ?, reoccur =?,
+    interval = ?, done = ?
+    WHERE id = #{@id}
+    "
+    DB.execute(st, self.title, self.due, self.takes, pr, ro, self.interval, dn)
   end
 
   def self.create_db
