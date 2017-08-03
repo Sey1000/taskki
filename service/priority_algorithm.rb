@@ -76,6 +76,16 @@ class PriorityAlgorithm
         end
       end
     end
+    clear_old
+  end
+
+  def clear_old
+    @done.each do |task|
+      diff = (Date.today - Date.parse(task.due)).to_i
+      if diff > 30
+        task.destroy
+      end
+    end
   end
 end
 

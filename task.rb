@@ -2,18 +2,20 @@ require 'sqlite3'
 require 'faker'
 require 'date'
 require_relative 'service/priority_algorithm'
+require 'fileutils'
+
+FileUtils::mkdir_p 'db'
+DB = SQLite3::Database.new('db/tasks.db')
 
 class Task
   attr_reader :title, :takes, :reoccur, :interval
   attr_accessor :id, :due, :score, :numbering, :done, :top_priority
-  DB = SQLite3::Database.new('/Users/sey/Desktop/Work/Github_Projects/task_manager/db/tasks.db')
   def initialize(infos = {})
+    Task.create_db
     @id = infos['id']
     @title = infos['title']
     @due = infos['due']
-    # if no due date, it's automatic priority
     @takes = infos['takes'] || 0
-    # if no due, but only takes, due will be set automatically (today + takes)
     @top_priority = (infos['top_priority'] == 1 ? true : false) || false
     @reoccur = (infos['reoccur'] == 1 ? true : false) || false
     @interval = infos['interval'] || 0
@@ -51,7 +53,11 @@ class Task
     if @due
       @due = Date.parse(@due).to_s
     else
-      @due = Date.today.to_s
+      if @takes
+        @due = (Date.today + @takes).to_s
+      else
+        @due = Date.today.to_s
+      end
     end
     save
   end

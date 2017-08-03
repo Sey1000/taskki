@@ -48,6 +48,13 @@ def add_error
 "ERROR: 'add' only takes TITLE, --due DATE, --takes N, and --priority"
 end
 
+def edit_help
+"Usage:             taskki edit (interactive)
+
+      -h, --help, help      help
+"
+end
+
 def delete_help
 "Usage:             taskki delete
                    (Shows all tasks)"

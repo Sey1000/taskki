@@ -95,7 +95,6 @@ class Controller
     if choice == 'y'
       task.destroy
       @view.deleted(task)
-      all
     else
       puts delete_cancle
     end

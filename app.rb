@@ -42,8 +42,12 @@ def delete
 end
 
 def edit
-  CON.all
-  CON.edit
+  case ARGV[1]
+  when "-h", "--help", "help" then puts edit_help
+  else
+    CON.all
+    CON.edit
+  end
 end
 
 def done
