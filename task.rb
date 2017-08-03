@@ -4,8 +4,8 @@ require 'date'
 require_relative 'service/priority_algorithm'
 
 class Task
-  attr_reader :title, :takes, :top_priority, :reoccur, :interval
-  attr_accessor :id, :due, :score, :numbering, :done
+  attr_reader :title, :takes, :reoccur, :interval
+  attr_accessor :id, :due, :score, :numbering, :done, :top_priority
   DB = SQLite3::Database.new('/Users/sey/Desktop/Work/Github_Projects/task_manager/db/tasks.db')
   def initialize(infos = {})
     @id = infos['id']
@@ -47,12 +47,6 @@ class Task
     return algo
   end
 
-  def self.revive(id)
-    task = Task.find(id)
-    task.done = false
-    task.save
-  end
-
   def add
     if @due
       @due = Date.parse(@due).to_s
@@ -60,6 +54,27 @@ class Task
       @due = Date.today.to_s
     end
     save
+  end
+  
+  def self.revive(id)
+    task = Task.find(id)
+    task.done = false
+    task.save
+  end
+
+  def self.done(task)
+    if task.reoccur
+      task.due = (Date.today + task.interval).to_s
+      puts "Reoccurring task: every #{task.interval} days, NEW due: #{task.due}"
+      if task.top_priority
+        puts "keep top_priority? [y/n]"
+        task.top_priority = STDIN.gets.chomp == 'y'
+      end
+    else
+      task.done = true
+      task.top_priority = false
+    end
+    task.save
   end
 
   def edit_info(info, value)

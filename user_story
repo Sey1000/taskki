@@ -12,7 +12,6 @@ USER STORY
     5) whether to show on the top from now on (top priority) - y/n
 3. I can mark a task done
     1) I am asked if this task will reappear
-    2) I can delete when I mark it done
 4. I can edit a task
 5. I can find deleted tasks in a trash can and revive it
     1) or delete forever

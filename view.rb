@@ -33,7 +33,8 @@ class View
   end
 
   def revive?
-    puts ""
+    puts "" 
+    puts "[!] Done tasks are saved for 30 days from due date"
     puts "Revive a task? [y/n]"
     return STDIN.gets.chomp == 'y'
   end
@@ -41,6 +42,16 @@ class View
   def revive_selection
     puts "Revive which task?"
     return STDIN.gets.chomp.to_i
+  end
+
+  def marking(task)
+    puts "Marked #{task.id} - #{task.title} [done]"
+  end
+
+  def get_done_id
+    puts ""
+    puts "             run : taskki done TASK_ID"
+    puts ""
   end
 
   def edit_selection
