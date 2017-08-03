@@ -2,9 +2,10 @@
 require 'date'
 
 class PriorityAlgorithm
-  attr_reader :today, :week, :longterm
+  attr_reader :today, :week, :longterm, :done
   def initialize(tasks_arr)
     @tasks = tasks_arr.sort_by {|ins| ins.due}
+    @done =[]
     @today = []
     @week = []
     @longterm = []
@@ -60,15 +61,19 @@ class PriorityAlgorithm
 
   def load_tasks
     @tasks.each do |task|
-      diff = (Date.parse(task.due) - Date.today).to_i
-      if diff <= task.takes || diff == 0
-        @today << task
-      elsif task.top_priority
-        @today << task
-      elsif diff < 7
-        @week << task
+      if task.done
+        @done << task
       else
-        @longterm << task
+        diff = (Date.parse(task.due) - Date.today).to_i
+        if diff <= task.takes || diff == 0
+          @today << task
+        elsif task.top_priority
+          @today << task
+        elsif diff < 7
+          @week << task
+        else
+          @longterm << task
+        end
       end
     end
   end

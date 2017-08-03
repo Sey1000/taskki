@@ -12,9 +12,10 @@ def view
   when "-t", "--today" then CON.today
   when "-w", "--week" then CON.week
   when "-l", "--long", "--longterm" then CON.longterm
+  when "-d", "--done" then CON.done
   when "-h", "--help", "help" then puts view_help
   else
-    CON.all
+    puts view_help
   end
 end
 
@@ -45,6 +46,10 @@ def edit
   CON.edit
 end
 
+def done
+  puts "herro"
+end
+
 case ARGV[0]
 when "view"
   view
@@ -54,6 +59,8 @@ when "add"
   add
 when "edit"
   edit
+when "done"
+  done
 when "del", "delete"
   delete
 else

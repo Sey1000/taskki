@@ -4,6 +4,9 @@ def main_help
 COMMAND
       view                  view all tasks
       t, today              view today's tasks
+
+      done TASK_ID          Mark task done
+
       add                   add new task
       edit                  edit a task
       del, delete           delete a task
@@ -20,6 +23,8 @@ OPTIONS
       -w, --week            View this week's tasks
       -l, --long,
       --longterm            View longterm tasks
+
+      -d, --done            View tasks mark as done
 
       -h, --help, help      Show all view options"
 end

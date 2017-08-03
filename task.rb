@@ -4,8 +4,8 @@ require 'date'
 require_relative 'service/priority_algorithm'
 
 class Task
-  attr_reader :title, :takes, :top_priority, :reoccur, :interval, :done
-  attr_accessor :id, :due, :score, :numbering
+  attr_reader :title, :takes, :top_priority, :reoccur, :interval
+  attr_accessor :id, :due, :score, :numbering, :done
   DB = SQLite3::Database.new('/Users/sey/Desktop/Work/Github_Projects/task_manager/db/tasks.db')
   def initialize(infos = {})
     @id = infos['id']
@@ -32,6 +32,10 @@ class Task
     return Task.all.longterm
   end
 
+  def self.done_list
+    return Task.all.done
+  end
+
   def self.all
     DB.results_as_hash = true
     result = DB.execute("SELECT * FROM tasks")
@@ -41,6 +45,12 @@ class Task
     end
     algo = PriorityAlgorithm.new(instance_arr)
     return algo
+  end
+
+  def self.revive(id)
+    task = Task.find(id)
+    task.done = false
+    task.save
   end
 
   def add

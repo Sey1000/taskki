@@ -30,6 +30,23 @@ class Controller
     @view.view_longterm(Task.longterm)
   end
 
+  def done
+    list = Task.done_list
+    @view.view_done(list)
+    unless list == [] 
+      if @view.revive?
+        revive
+      end
+    else
+      puts "no done tasks"
+    end
+  end
+
+  def revive
+    id = @view.revive_selection
+    Task.revive(id)
+  end
+
   def add
     infos = parse_add
     if infos.nil?

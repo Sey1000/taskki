@@ -26,6 +26,23 @@ class View
     end
   end
 
+  def view_done(tasks)
+    tasks.each do |task|
+      puts "#{task.id} - #{task.title} (due #{task.due}), takes #{task.takes} days"
+    end
+  end
+
+  def revive?
+    puts ""
+    puts "Revive a task? [y/n]"
+    return STDIN.gets.chomp == 'y'
+  end
+
+  def revive_selection
+    puts "Revive which task?"
+    return STDIN.gets.chomp.to_i
+  end
+
   def edit_selection
     puts ""
     puts "Edit which task?"
