@@ -4,8 +4,9 @@ require 'date'
 require_relative 'service/priority_algorithm'
 require 'fileutils'
 
-FileUtils::mkdir_p 'db'
-DB = SQLite3::Database.new('db/tasks.db')
+FileUtils::mkdir_p(Dir.home + '/.taskki')
+DB = SQLite3::Database.new(Dir.home + '/.taskki/tasks.db')
+
 
 class Task
   attr_reader :title, :takes, :reoccur, :interval
