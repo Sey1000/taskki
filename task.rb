@@ -1,5 +1,5 @@
 require 'sqlite3'
-require 'faker'
+# require 'faker' #if you want to test code with random-generated tasks
 require 'date'
 require_relative 'service/priority_algorithm'
 require 'fileutils'

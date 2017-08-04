@@ -4,8 +4,8 @@ Commnad line task manager written in Ruby
 ## Installation
 1. Clone or download
 2. `cd taskki`
-3. `ln -s $PWD/app.rb /usr/local/bin/taskki`
-4. `chmod 755 app.rb`
+3. `bundle install`
+4. `ln -s $PWD/app.rb /usr/local/bin/taskki`
 
 ## Usage Example
 To see all commands:
