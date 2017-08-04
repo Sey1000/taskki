@@ -21,6 +21,25 @@ require_relative 'service/messages'
 
 CON = Controller.new
 
+def router
+  case ARGV[0]
+  when "view"
+    view
+  when "today", "t"
+    today
+  when "add"
+    add
+  when "edit"
+    edit
+  when "done"
+    done
+  when "del", "delete"
+    delete
+  else
+    puts main_help
+  end
+end
+
 def view
   case ARGV[1]
   when "-t", "--today" then CON.today
@@ -68,19 +87,9 @@ def delete
   end
 end
 
-case ARGV[0]
-when "view"
-  view
-when "today", "t"
-  today
-when "add"
-  add
-when "edit"
-  edit
-when "done"
-  done
-when "del", "delete"
-  delete
-else
+
+if ARGV[0].nil?
   puts main_help
+else
+  router
 end
