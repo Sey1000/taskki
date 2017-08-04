@@ -30,7 +30,7 @@ OPTIONS
 end
 
 def add_help
-"Usage: taskki add TITLE [OPTIONS]
+"Usage: taskki add TITLE [OPTIONS*]
 
 OPTIONS
       -d, --due DATE        Set due date to new task
@@ -40,6 +40,7 @@ OPTIONS
       -h, --help, help      Show all add options
 
 Default behaviors
+      * multiple options are allowed
       if 'due' is not added, task is due Today
       if 'takes' is set, but no 'due' is set, due is automatically Today + takes"
 end
