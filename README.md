@@ -4,6 +4,7 @@ Commnad line task manager written in Ruby
 ## Installation
 1. Clone or download
 2. `cd taskki`
+3. `gem install bundler` if you don't have bundler yet
 3. `bundle install`
 4. `ln -s $PWD/app.rb /usr/local/bin/taskki`
 
