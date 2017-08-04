@@ -27,7 +27,7 @@ def router
     view
   when "today", "t"
     today
-  when "add"
+  when "add", "new"
     add
   when "edit"
     edit

@@ -7,7 +7,7 @@ COMMAND
 
       done TASK_ID          Mark task done
 
-      add                   add new task
+      add, new              add new task
       edit                  edit a task
       del, delete           delete a task
 
