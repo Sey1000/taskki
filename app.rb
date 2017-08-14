@@ -23,7 +23,7 @@ CON = Controller.new
 
 def router
   case ARGV[0]
-  when "view"
+  when "view", "v"
     view
   when "today", "t"
     today

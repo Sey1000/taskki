@@ -14,7 +14,8 @@ class Task
   def initialize(infos = {})
     Task.create_db
     @id = infos['id']
-    @title = infos['title']
+    @title = infos['title'] || infos[:title]
+    # default should be today
     @due = infos['due']
     @takes = infos['takes'] || 0
     @top_priority = (infos['top_priority'] == 1 ? true : false) || false

@@ -2,7 +2,7 @@ def main_help
 "Usage: taskki COMMAND [OPTIONS]
 
 COMMAND
-      view                  view all tasks
+      v, view                  view all tasks
       t, today              view today's tasks
 
       done TASK_ID          Mark task done
