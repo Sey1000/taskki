@@ -1,5 +1,5 @@
 # Taskki
-Commnad line task manager written in Ruby
+Command line task manager written in Ruby
 
 ## Installation
 0. You need: ruby, gem, bundler
