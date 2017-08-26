@@ -1,32 +1,20 @@
-def parse_add
-  infos = {}
-  return if ARGV[1][0] == '-'
-  all_input = ARGV[1..-1].join(" ").split(" -")
-  return if all_input.length > 4
-  infos['title'] = all_input[0]
-  all_input[1..-1].each do |str|
-    arr = parse_add_options(str)
-    return if arr.nil?
-    infos[arr[0]] = arr[1]
-  end
-  return infos
-end
+require_relative 'parse_add_options'
 
-def parse_add_options(string)
-  splitted = string.split
-  case splitted[0]
-  when 'd', '-due'
-    date = splitted[1..-1].join(" ")
-    return if date == ""
-    return ['due', date]
-  when 't', '-takes'
-    return ['takes', splitted[1].to_i]
-  when 'p', '-priority'
-    return ['top_priority', 1]
-  else
-    return
+class OptionParser
+  def initialize
+    @all_input = ARGV[1..-1].join(" ").split(" -")
+    @infos = {}
   end
-  # ['due', rest of string]
-  # ['takes', integer]
-  # ['top_priority', true]
+
+  def parse_add
+    return if ARGV[1][0] == '-'
+    return if @all_input.length > 4
+    @infos['title'] = @all_input[0]
+    @all_input[1..-1].each do |str|
+      arr = ParseAddOptions.new(str).parsed_arr
+      return if arr.nil?
+      @infos[arr[0]] = arr[1]
+    end
+    return @infos
+  end
 end

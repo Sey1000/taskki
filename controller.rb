@@ -40,7 +40,7 @@ class Controller
   end
 
   def add
-    infos = parse_add
+    infos = OptionParser.new.parse_add
     if infos.nil?
       puts add_error
       puts add_help

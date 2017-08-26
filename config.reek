@@ -1,2 +1,8 @@
 IrresponsibleModule:
   enabled: false
+
+TooManyStatements:
+  enabled: false
+
+NilCheck:
+  enabled: false
