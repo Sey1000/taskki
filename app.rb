@@ -23,18 +23,12 @@ CON = Controller.new
 
 def router
   case ARGV[0]
-  when "view", "v"
-    view
-  when "today", "t"
-    today
-  when "add", "new"
-    add
-  when "edit"
-    edit
-  when "done"
-    done
-  when "del", "delete"
-    delete
+  when "view", "v" then view
+  when "today", "t" then CON.today
+  when "add", "new" then add
+  when "edit" then edit
+  when "done" then CON.done(ARGV[1])
+  when "del", "delete" then delete
   else
     puts main_help
   end
@@ -52,10 +46,6 @@ def view
   end
 end
 
-def today
-  CON.today
-end
-
 def add
   case ARGV[1]
   when "-h", "--help", "help", nil then puts add_help
@@ -71,10 +61,6 @@ def edit
     CON.all
     CON.edit
   end
-end
-
-def done
-  CON.done(ARGV[1])
 end
 
 def delete
