@@ -81,11 +81,9 @@ class Controller
   end
 
   def delete
-    id = ARGV[1]
-    task = Task.find(id)
+    task = Task.find(ARGV[1])
     @view.show_this_task(task)
-    choice = STDIN.gets.chomp
-    if choice == 'y'
+    if STDIN.gets.chomp == 'y'
       task.destroy
       @view.deleted(task)
     else
