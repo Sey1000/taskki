@@ -1,5 +1,7 @@
 # service class
 require 'date'
+require_relative 'clear_old'
+require_relative 'due_prettifier'
 
 class PriorityAlgorithm
   attr_reader :today, :week, :longterm, :done
@@ -19,42 +21,39 @@ class PriorityAlgorithm
   private
 
   def numbering
+    today_numbering
+    week_numbering
+    longterm_numbering
+  end
+
+  def today_numbering
     @today.each_with_index do |task, ind|
       task.numbering = ind + 1
     end
+  end
+
+  def week_numbering
     @week.each_with_index do |task, ind|
       task.numbering = ind + 1 + @today.length
-    end
+    end    
+  end
+
+  def longterm_numbering
     @longterm.each_with_index do |task, ind|
-      task.numbering = ind + 1 + @today.length + @week.length
+      task.numbering = ind + 1 + (@today + @week).length
     end
   end
 
   def prettify_due
-    @today.each do |task|
-      how_many = (Date.parse(task.due) - Date.today).to_i
-      if how_many > 7
-        date = Date.parse(task.due)
-        task.due = "#{date.strftime("%b")} #{date.strftime("%d")}"        
-      elsif how_many == 0
-        task.due = "today"
-      else
-        task.due = "#{how_many} days"
-      end
-    end
-    @week.each do |task|
-      how_many = (Date.parse(task.due) - Date.today).to_i
-      task.due = "#{how_many} days"
-    end
-    @longterm.each do |task|
-      date = Date.parse(task.due)
-      task.due = "#{date.strftime("%b")} #{date.strftime("%d")}"
-    end
+    due_prettifier = DuePrettifier.new
+    @today = due_prettifier.prettify_today_due(@today)
+    @week = due_prettifier.prettify_week_due(@week)
+    @longterm = due_prettifier.prettify_longterm_due(@longterm)
   end
 
   def order_today
     prs = @today.select { |task| task.top_priority }
-    rest = @today.reject { |task| task.top_priority }
+    rest = @today - prs
     prs.sort_by {|task| (Date.parse(task.due) - Date.today).to_i}
     @today = prs + rest
   end
@@ -65,9 +64,7 @@ class PriorityAlgorithm
         @done << task
       else
         diff = (Date.parse(task.due) - Date.today).to_i
-        if diff <= task.takes || diff == 0
-          @today << task
-        elsif task.top_priority
+        if diff <= task.takes || diff == 0 || task.top_priority
           @today << task
         elsif diff < 7
           @week << task
@@ -76,18 +73,6 @@ class PriorityAlgorithm
         end
       end
     end
-    clear_old
-  end
-
-  def clear_old
-    @done.each do |task|
-      diff = (Date.today - Date.parse(task.due)).to_i
-      if diff > 30
-        task.destroy
-      end
-    end
+    @done = ClearOld.new(@done).clear
   end
 end
-
-# a = Date.parse('Aug 1')
-# p a == Date.today

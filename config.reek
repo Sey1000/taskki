@@ -6,3 +6,6 @@ TooManyStatements:
 
 NilCheck:
   enabled: false
+
+TooManyInstanceVariables:
+  enabled: false
