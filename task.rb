@@ -1,5 +1,5 @@
-require 'sqlite3'
 # require 'faker' #if you want to test code with random-generated tasks
+require 'sqlite3'
 require 'date'
 require_relative 'service/priority_algorithm'
 require 'fileutils'
@@ -55,10 +55,11 @@ class Task
     if @due
       @due = Date.parse(@due).to_s
     else
+      due_date = Date.today
       if @takes
-        @due = (Date.today + @takes).to_s
+        @due = (due_date + @takes).to_s
       else
-        @due = Date.today.to_s
+        @due = due_date.to_s
       end
     end
     save
@@ -70,26 +71,40 @@ class Task
     return Task.new(result)
   end
 
-  def edit_info(info, value)
-    case info
-    when 'title' then @title = value
-    when 'due' then @due = Date.parse(value).to_s
-    when 'takes' then @takes = value
-    when 'top priority'
-      @top_priority = !@top_priority
-      puts "Top priority toggled"
-      puts ""
-    when 'repeat'
-      @reoccur = true
-      @interval = value
-    end
+  def edit_title(value)
+    @title = value
+    save
+  end
+
+  def edit_due(value)
+    @due = Date.parse(value).to_s
+    save
+  end
+
+  def edit_takes(value)
+    @takes = value
+    save
+  end
+
+  def edit_top_priority
+    @top_priority = !@top_priority
+    puts "Top priority toggled"
+    puts ""
+    save
+  end
+
+  def edit_repeat(value)
+    @reoccur = true
+    @interval = value
     save
   end
 
   def self.done(task)
     if task.reoccur
-      task.due = (Date.today + task.interval).to_s
-      puts "Reoccurring task: every #{task.interval} days, NEW due: #{task.due}"
+      intv = task.interval
+      new_due = (Date.today + intv).to_s
+      task.due = new_due
+      puts "Reoccurring task: every #{intv} days, NEW due: #{new_due}"
       if task.top_priority
         puts "keep top_priority? [y/n]"
         task.top_priority = STDIN.gets.chomp == 'y'
@@ -118,14 +133,14 @@ class Task
   def self.create_db
     st = "
     CREATE TABLE IF NOT EXISTS`tasks` (
-      `id`  INTEGER PRIMARY KEY AUTOINCREMENT,
-      `title` TEXT,
-      `due` TEXT,
-      `takes`  INTEGER,
-      `top_priority` BOOLEAN,
-      `reoccur` BOOLEAN,
-      `interval` INTEGER,
-      `done` BOOLEAN
+    `id`  INTEGER PRIMARY KEY AUTOINCREMENT,
+    `title` TEXT,
+    `due` TEXT,
+    `takes`  INTEGER,
+    `top_priority` BOOLEAN,
+    `reoccur` BOOLEAN,
+    `interval` INTEGER,
+    `done` BOOLEAN
     );"
     DB.execute(st)
   end

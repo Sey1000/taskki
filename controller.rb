@@ -56,11 +56,11 @@ class Controller
     until repeat != 'y'
       option = @view.edit_option(task)
       case option
-      when 1 then task.edit_info('title', @view.new_info('title'))
-      when 2 then task.edit_info('due', @view.new_info('due'))
-      when 3 then task.edit_info('takes', @view.new_info('takes'))
-      when 4 then task.edit_info('top priority', nil)
-      when 5 then task.edit_info('repeat', @view.new_info('repeat'))
+      when 1 then task.edit_title(@view.new_info('title'))
+      when 2 then task.edit_due(@view.new_info('due'))
+      when 3 then task.edit_takes(@view.new_info('takes'))
+      when 4 then task.edit_top_priority
+      when 5 then task.edit_repeat(@view.new_info('repeat'))
       when 6 then break
       end
       puts "Keep editing? [y/n]"

@@ -9,3 +9,6 @@ NilCheck:
 
 TooManyInstanceVariables:
   enabled: false
+
+Attribute:
+  enabled: false
