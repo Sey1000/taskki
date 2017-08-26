@@ -1,5 +1,5 @@
 class DuePrettifier
-  def prettify_today_due(today_arr)
+  def self.prettify_today_due(today_arr)
     today_arr.each do |task|
       due_date = Date.parse(task.due)
       how_many = (due_date - Date.today).to_i
@@ -15,7 +15,7 @@ class DuePrettifier
     return today_arr
   end
 
-  def prettify_week_due(week_arr)
+  def self.prettify_week_due(week_arr)
     week_arr.each do |task|
       how_many = (Date.parse(task.due) - Date.today).to_i
       task.due = "#{how_many} days"
@@ -23,7 +23,7 @@ class DuePrettifier
     return week_arr
   end
 
-  def prettify_longterm_due(longterm_arr)
+  def self.prettify_longterm_due(longterm_arr)
     longterm_arr.each do |task|
       date = Date.parse(task.due)
       task.due = "#{date.strftime("%b")} #{date.strftime("%d")}"

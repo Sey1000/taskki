@@ -45,10 +45,9 @@ class PriorityAlgorithm
   end
 
   def prettify_due
-    due_prettifier = DuePrettifier.new
-    @today = due_prettifier.prettify_today_due(@today)
-    @week = due_prettifier.prettify_week_due(@week)
-    @longterm = due_prettifier.prettify_longterm_due(@longterm)
+    @today = DuePrettifier.prettify_today_due(@today)
+    @week = DuePrettifier.prettify_week_due(@week)
+    @longterm = DuePrettifier.prettify_longterm_due(@longterm)
   end
 
   def order_today
@@ -73,6 +72,8 @@ class PriorityAlgorithm
         end
       end
     end
-    @done = ClearOld.new(@done).clear
+    @done.each do |task|
+      ClearOld.clear(task)
+    end
   end
 end
