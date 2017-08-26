@@ -23,7 +23,9 @@ class Controller
 
   def view_done
     list = Task.done_list
-    @view.view_done(list)
+    list.each do |task|
+      puts "#{task.id} - #{task.title} (due #{task.due}), takes #{task.takes} days"
+    end
     unless list == []
       if @view.revive?
         revive
@@ -75,19 +77,26 @@ class Controller
       @view.get_done_id
     else
       task = Task.find(id.to_i)
-      @view.marking(task)
+      puts "Marked #{task.id} - #{task.title} [done]"
       Task.done(task)
     end
   end
 
   def delete
-    task = Task.find(ARGV[1])
-    @view.show_this_task(task)
-    if STDIN.gets.chomp == 'y'
-      task.destroy
-      @view.deleted(task)
+    del_id = ARGV[1]
+    if del_id
+      task = Task.find(del_id)
+      task_id = task.id
+      task_title = task.title
+      puts "Delete task: #{task_id} - #{task_title}? [y/n]"
+      if STDIN.gets.chomp == 'y'
+        task.destroy
+        puts "#{task_id} - #{task_title} deleted"
+      else
+        puts delete_cancle
+      end
     else
-      puts delete_cancle
+      @view.get_delete_id
     end
   end
 

@@ -5,8 +5,7 @@ class View
     puts ""
     puts "== TODAY =="
     tasks.each do |task|
-      top = task.top_priority ? "[!] " : ""
-      puts "#{task.id} - #{top}#{task.title} (#{task.due})"
+      puts "#{task.id} - #{task.top_priority ? '[!] ' : ''}#{task.title} (#{task.due})"
     end
   end
 
@@ -26,12 +25,6 @@ class View
     end
   end
 
-  def view_done(tasks)
-    tasks.each do |task|
-      puts "#{task.id} - #{task.title} (due #{task.due}), takes #{task.takes} days"
-    end
-  end
-
   def revive?
     puts "" 
     puts "[!] Done tasks are saved for 30 days from due date"
@@ -44,14 +37,12 @@ class View
     return STDIN.gets.chomp.to_i
   end
 
-  def marking(task)
-    puts "Marked #{task.id} - #{task.title} [done]"
+  def get_done_id
+    puts "\n             run : taskki done TASK_ID\n\n"
   end
 
-  def get_done_id
-    puts ""
-    puts "             run : taskki done TASK_ID"
-    puts ""
+  def get_delete_id
+    puts "             run : taskki delete TASK_ID\n\n"
   end
 
   def edit_selection
@@ -62,14 +53,15 @@ class View
   end
 
   def edit_option(task)
+    tks = task.takes
+    intv = task.interval
     puts ""
     puts "1 - title: #{task.title}"
     puts "2 - due: #{task.due}"
-    puts task.takes == 0 ? "3 - takes: not specified" : "3 - takes: #{task.takes} days"
+    puts tks == 0 ? "3 - takes: not specified" : "3 - takes: #{tks} days"
     puts "4 - top priority: #{task.top_priority}"
-    puts task.interval == 0 ? "5 - repeat: not specified" : "5 - repeat: every #{task.interval} days"
-    puts "6 - CANCEL EDIT"
-    puts ""
+    puts intv == 0 ? "5 - repeat: not specified" : "5 - repeat: every #{intv} days"
+    puts "6 - CANCEL EDIT\n\n"
     puts "Edit which information?"
     return STDIN.gets.chomp.to_i
   end
@@ -82,13 +74,5 @@ class View
     when 'repeat' then puts "How often to repeat? ([#] of days)"
     end
     return STDIN.gets.chomp
-  end
-
-  def show_this_task(task)
-    puts "Delete task: #{task.id} - #{task.title}? [y/n]"
-  end
-
-  def deleted(task)
-    puts "#{task.id} - #{task.title} deleted"
   end
 end

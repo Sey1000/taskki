@@ -12,3 +12,7 @@ TooManyInstanceVariables:
 
 Attribute:
   enabled: false
+
+FeatureEnvy:
+  exclude:
+  - initialize
